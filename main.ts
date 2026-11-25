@@ -20,6 +20,13 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const LINE =
   "A hundred bounties, zero wins, one 3 a.m. refresh of a leaderboard that still owes me rent.";
 
+// The gate refuses anything over 100 characters, so refuse to write a
+// line that long rather than submitting an invalid entry.
+if (LINE.length > 100) {
+  console.error(`line is ${LINE.length} characters, over the 100 limit`);
+  process.exit(1);
+}
+
 const dest = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 
 // In the grader /output is a mount point: create it when it is missing,
